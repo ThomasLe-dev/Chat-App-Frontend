@@ -42,7 +42,7 @@ function Login() {
       <Button
         colorScheme="blue"
         width="100%"
-        style={{ marginTop: 15 }}
+        style={{ marginTop: 20 }}
         onClick={submitHandler}
         isLoading={loading}
       >
