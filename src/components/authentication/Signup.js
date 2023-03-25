@@ -83,6 +83,7 @@ function SignUp() {
           isClosable: true,
           position: "top",
         });
+        setPicLoading(false);
         return;
       }
       console.log(userName, email, password, profPic);
@@ -112,7 +113,7 @@ function SignUp() {
         });
         localStorage.setItem("userInfo", JSON.stringify(data));
         setPicLoading(false);
-        navigate.push("/chats");
+        navigate("/");
       } catch (error) {
         toast({
           title: "Error Occured!",

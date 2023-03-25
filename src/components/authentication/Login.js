@@ -1,5 +1,8 @@
-import {Button, InputGroup, InputRightElement, FormControl, FormLabel, Input, VStack } from '@chakra-ui/react'
+import {useToast, Button, InputGroup, InputRightElement, FormControl, FormLabel, Input, VStack } from '@chakra-ui/react'
 import React, { useState } from 'react'
+import { useNavigate } from "react-router-dom";
+import axios from 'axios';
+
 
 function Login() {
   const [show, setShow] = useState(false);
@@ -8,7 +11,60 @@ function Login() {
   const [password, setPassword] = useState();
   const [loading, setLoading] = useState(false);
 
-  const submitHandler = async () => {};
+  const navigate = useNavigate();
+  const toast = useToast();
+
+  const submitHandler = async () => {
+    setLoading(true);
+    if (!email || !password) {
+      toast({
+        title: "Please Fill all the Feilds",
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
+        position: "top",
+      });
+      setLoading(false);
+      return;
+    }
+
+    // console.log(email, password);
+    try {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+
+      const { data } = await axios.post(
+        "http://localhost:8000/api/user/login",
+        { email, password },
+        config
+      );
+
+      // console.log(JSON.stringify(data));
+      toast({
+        title: "Login Successful",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: "top",
+      });
+      localStorage.setItem("userInfo", JSON.stringify(data));
+      setLoading(false);
+      navigate("/chats");
+    } catch (error) {
+      toast({
+        title: "Error Occured!",
+        description: error.response.data.message,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "top",
+      });
+      setLoading(false);
+    }
+  };
 
   return (
     <VStack spacing="10px">
