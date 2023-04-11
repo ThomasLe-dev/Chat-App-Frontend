@@ -7,8 +7,8 @@ import axios from 'axios';
 function Login() {
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
@@ -68,7 +68,7 @@ function Login() {
 
   return (
     <VStack spacing="10px">
-      <FormControl id="email" isRequired>
+      <FormControl id="email">
         <FormLabel>Email Address</FormLabel>
         <Input
           value={email}
@@ -78,7 +78,7 @@ function Login() {
         />
       </FormControl>
 
-      <FormControl id="password" isRequired>
+      <FormControl id="password">
         <FormLabel>Password</FormLabel>
         <InputGroup size="md">
           <Input

@@ -5,11 +5,11 @@ import axios from 'axios';
 
 function SignUp() {
     const [show, setShow] = useState(false);
-    const [userName, setName] = useState();
-    const [email, setEmail] = useState();
-    const [confirmpassword, setConfirmpassword] = useState();
-    const [password, setPassword] = useState();
-    const [profPic, setPic] = useState();
+    const [userName, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [confirmpassword, setConfirmpassword] = useState("");
+    const [password, setPassword] = useState("");
+    const [profPic, setPic] = useState("");
     const [picLoading, setPicLoading] = useState(false);
 
     const toast = useToast();
@@ -129,8 +129,8 @@ function SignUp() {
 
     
   return (
-    <VStack spacing="5px" id="first-name" isRequired>
-      <FormControl id="first-name" isRequired>
+    <VStack spacing="5px" id="first-name">
+      <FormControl id="first-name">
         <FormLabel>Name</FormLabel>
         <Input
           placeholder="Enter Your Name"
@@ -138,7 +138,7 @@ function SignUp() {
         />
       </FormControl>
 
-      <FormControl id="email" isRequired>
+      <FormControl id="email">
         <FormLabel>Email Address</FormLabel>
         <Input
           type="email"
@@ -147,7 +147,7 @@ function SignUp() {
         />
       </FormControl>
 
-      <FormControl id="password" isRequired>
+      <FormControl id="password">
         <FormLabel>Password</FormLabel>
         <InputGroup size="md">
           <Input
@@ -163,7 +163,7 @@ function SignUp() {
         </InputGroup>
       </FormControl>
 
-      <FormControl id="password" isRequired>
+      <FormControl id="password">
         <FormLabel>Confirm Password</FormLabel>
         <InputGroup size="md">
           <Input

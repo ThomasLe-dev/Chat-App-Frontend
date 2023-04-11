@@ -4,4 +4,5 @@
     background-image: url('./BackGround.jpg');
     background-size: cover;
     background-position: center;
+    border: none;
 }
