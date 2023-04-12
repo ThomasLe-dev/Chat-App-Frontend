@@ -86,7 +86,7 @@ function SignUp() {
         setPicLoading(false);
         return;
       }
-      console.log(userName, email, password, profPic);
+
       try {
         const config = {
           headers: {
@@ -103,7 +103,7 @@ function SignUp() {
           },
           config
         );
-        console.log(data);
+
         toast({
           title: "Registration Successful",
           status: "success",
