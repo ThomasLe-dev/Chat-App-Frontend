@@ -1,3 +1,4 @@
 export const getSender = (loggedUser, users) => {
-    return users[0]._id === loggedUser._id ? users[1].name : users[0].name;
-  };
+  console.log(loggedUser.userWithoutPassword._id, users[0]._id);
+    return users[0]._id === loggedUser.userWithoutPassword._id ? users[1].userName : users[0].userName;
+};
