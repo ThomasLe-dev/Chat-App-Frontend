@@ -29,10 +29,10 @@ const ProfileModal = ({ user, children }) => {
         <ModalContent h="410px">
           <ModalHeader
             fontSize="40px"
-            d="flex"
+            display="flex"
             justifyContent="center"
           >
-            {user?.userWithoutPassword.userName}
+            {user.userName}
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody
@@ -44,13 +44,13 @@ const ProfileModal = ({ user, children }) => {
             <Image
               borderRadius="full"
               boxSize="150px"
-              src={user?.userWithoutPassword.profPic}
-              alt={user?.userWithoutPassword.userName}
+              src={user.profPic}
+              alt={user.userName}
             />
             <Text
               fontSize={{ base: "28px", md: "30px" }}
             >
-              Email: {user?.userWithoutPassword.email}
+              Email: {user.email}
             </Text>
           </ModalBody>
           <ModalFooter>
