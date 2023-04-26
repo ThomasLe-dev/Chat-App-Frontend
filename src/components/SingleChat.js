@@ -9,13 +9,19 @@ import { useState, useEffect } from "react";
 import axios from 'axios';
 import "../styles.css";
 import ScrollableChat from './ScrollableChat';
+import io from 'socket.io-client';
+
+const ENDPOINT = 'http://localhost:8000';
+var socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     const [messages, setMessages] = useState([]);
     const [loading, setLoading] = useState(false);
     const [newMessage, setNewMessage] = useState("");
     const { selectedChat, setSelectedChat, user } = ChatState();
+    const [socketConnected, setSocketConnected] = useState(false);
     const toast = useToast();
+
 
     const sendMessage = async (event) => {
       if (event.key === "Enter" && newMessage) {
@@ -36,6 +42,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             config
           );
           //console.log(data);
+          socket.emit('new message', data);
           setMessages([...messages, data]);
         } catch (error) {
           toast({
@@ -72,6 +79,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       setMessages(data);
       // console.log(messages);
       setLoading(false);
+
+      socket.emit('join chat', selectedChat._id);
     } catch (error) {
       toast({
         title: "Error Occured!",
@@ -85,8 +94,29 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     };
 
     useEffect(() => {
+      socket = io(ENDPOINT);
+      socket.emit('setup', user.userWithoutPassword);
+      socket.on('connection', () => setSocketConnected(true));
+    }, []);
+
+    useEffect(() => {
       fetchMessages();
+      selectedChatCompare =  selectedChat;
     }, [selectedChat]);
+
+    useEffect(() => {
+      socket.on("message received", (newMessageRecieved) => {
+        if (
+          !selectedChatCompare || // if chat is not selected or doesn't match current chat
+          selectedChatCompare._id !== newMessageRecieved.chat._id
+        ) {
+            //give notification
+        } else {
+          setMessages([...messages, newMessageRecieved]);
+        }
+      });
+    });
+
 
     return (
       <>
