@@ -27,6 +27,9 @@ import ProfileModal from './ProfileModal';
 import axios from "axios";
 import ChatLoading from "../ChatLoading";
 import UserListItem from "../Users/UserListItem";
+import { getSender } from "../../config/ChatLogic";
+import NotificationBadge from "react-notification-badge";
+import { Effect } from "react-notification-badge";
 
 const SideDrawer = () => {
   const [search, setSearch] = useState("");
@@ -35,7 +38,7 @@ const SideDrawer = () => {
   const [loadingChat, setLoadingChat] = useState();
 
   const navigate = useNavigate();
-  const {user, setSelectedChat, chats, setChats} = ChatState();
+  const {user, setSelectedChat, chats, setChats, notification, setNotification} = ChatState();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
 
@@ -130,9 +133,29 @@ const SideDrawer = () => {
       <Text fontSize={'2xl'} marginRight={"10%"}>DUNGEON CHAT ZONE</Text>
       <div>
         <Menu>
-          <MenuButton p={1}>
+          <MenuButton p={1} marginRight="10px">
+            <NotificationBadge
+              count={notification.length}
+              effect={Effect.SCALE}
+            />
             <BellIcon fontSize={'2xl'} p={1}/>
           </MenuButton>
+          <MenuList pl={2}>
+          {!notification.length && " 0 New Messages"}
+          {notification.map((notif) => (
+                <MenuItem
+                  key={notif._id}
+                  onClick={() => {
+                    setSelectedChat(notif.chat);
+                    setNotification(notification.filter((n) => n !== notif));
+                  }}
+                >
+                  {notif.chat.isGroupChat
+                    ? `New Message in ${notif.chat.chatName}`
+                    : `New Message from ${getSender(user, notif.chat.users)}`}
+                </MenuItem>
+            ))}
+          </MenuList>
         </Menu>
 
         <Menu>
